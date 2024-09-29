@@ -2,7 +2,7 @@ import User from "../models/ModelUser.js";
 
 export const getUser = async (req, res) => {
   try {
-    const response = await User.find();
+    const response = await User.find().select("name age");
     res.status(200).json(response);
   } catch (error) {
     console.log(error.message);
@@ -20,14 +20,15 @@ export const createUser = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   try {
-    await User.findByIdAndUpdate(
+    const updateUser = await User.findByIdAndUpdate(
       req.params.id,
       {
         $set: req.body,
       },
       { new: true, runValidators: true }
     );
-    res.status(200).json({ msg: "User Updated" });
+    if (!updateUser) return res.status(404).json({ msg: "User not found" });
+    res.status(200).json({ msg: "User updated" });
   } catch (error) {
     console.log(error.message);
   }
@@ -35,8 +36,9 @@ export const updateUser = async (req, res) => {
 
 export const deleteUser = async (req, res) => {
   try {
-    await User.deleteOne({ _id: req.params.id });
-    res.status(200).json({ msg: "User Deleted" });
+    const deleteUser = await User.findByIdAndDelete(req.params.id);
+    if (!deleteUser) return res.status(404).json({ msg: "User not found" });
+    res.status(200).json({ msg: "User deleted" });
   } catch (error) {
     console.log(error.message);
   }
