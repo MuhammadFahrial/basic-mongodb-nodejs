@@ -16,9 +16,11 @@ app.use(cors());
 app.use(express.json());
 app.use(userRoute);
 
-app.listen(proccess.env.PORT, () => {
+const PORT = process.env.PORT;
+
+app.listen(PORT, () => {
   try {
-    console.log("Server up and running...");
+    console.log("Server up and running " + PORT);
   } catch (error) {
     console.log(error.message);
   }
