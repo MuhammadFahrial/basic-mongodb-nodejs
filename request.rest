@@ -5,8 +5,8 @@ POST http://localhost:5000/users
 Content-Type: application/json
 
 {
-    "name": "Lana",
-    "age": "12"
+    "name": "John",
+    "age": "16"
 }
 
 ###
